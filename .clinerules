@@ -1,0 +1,76 @@
+# Progetto Next.js + Supabase + FastAPI + Shadcn Admin
+
+I commenti, le label e gli esempi nel docide devono essere scritti in inglese
+
+## Architettura del Progetto
+
+- Frontend Principale: Next.js
+- Frontend Admin: Shadcn UI + Vite
+- Database e Autenticazione: Supabase
+- Backend API: FastAPI (Python)
+
+## Struttura delle cartelle
+
+- `/frontend` - Applicazione Next.js principale
+- `/shadcn-admin` - Applicazione admin basata su Shadcn UI con Vite
+- `/backend` - API FastAPI (condivisa tra entrambi i frontend)
+- `/docs` - Documentazione del progetto
+
+## Frontend Principale (Next.js)
+
+- Utilizzare il framework Next.js per il routing e il rendering
+- Implementare le API routes di Next.js solo per operazioni frontend
+- Utilizzare il client Supabase per l'autenticazione e l'accesso ai dati
+- Mantenere i componenti React in `/frontend/components`
+- Strutturare le pagine in `/frontend/pages` o `/frontend/app` (App Router)
+- I node_modules sono nella cartella `/frontend/node_modules`
+
+## Frontend Admin (Shadcn UI + Vite)
+
+- Utilizzare Vite come bundler
+- Implementare Shadcn UI per l'interfaccia utente
+- Condividere lo stesso backend e Supabase dell'applicazione principale
+- Strutturare i componenti in `/shadcn-admin/components`
+- Mantenere una struttura di routing coerente con Vite
+- I node_modules sono nella cartella `/shadcn-admin/node_modules`
+- Riutilizzare i tipi TypeScript tra i progetti quando possibile
+
+## Backend (FastAPI)
+
+- Implementare le API in Python utilizzando FastAPI
+- Strutturare il codice in moduli logici (`routers`, `models`, `services`)
+- Utilizzare Pydantic per la validazione dei dati
+- Connettere direttamente a Supabase tramite le API o utilizzare le librerie client di Supabase
+- Assicurarsi che l'API supporti entrambe le applicazioni frontend
+
+## Supabase
+
+- Definire le tabelle e le relazioni nel database Supabase
+- Implementare RLS (Row Level Security) per la sicurezza dei dati
+- Utilizzare le funzioni SQL e le stored procedures per operazioni complesse
+- Mantenere sincronizzate le definizioni dei tipi tra il backend e i due frontend
+- Implementare controlli di ruolo per separare utenti normali da amministratori
+
+## Pattern di Sviluppo
+
+- Utilizzare TypeScript per entrambi i frontend
+- Utilizzare Python type hints nel backend
+- Implementare la gestione degli errori consistente in tutti i frontend e backend
+- Documentare le API con OpenAPI (Swagger) nel backend
+- Gestire lo stato dell'applicazione con React Context o altri state manager appropriati
+- Condividere utility e funzioni comuni tra i frontend quando possibile
+
+## Testing
+
+- Implementare test unitari per la logica di business
+- Sviluppare test e2e per i flussi critici dell'utente
+- Testare le API FastAPI con pytest
+- Testare i componenti React con Vitest per l'admin e Jest per il frontend principale
+
+## Documentazione
+
+- Mantenere aggiornata la documentazione in `/docs`
+- Documentare le API in formato OpenAPI
+- Aggiornare README.md con le istruzioni di installazione e configurazione
+- Mantenere un changelog delle modifiche importanti
+- Documentare le differenze e le interazioni tra le applicazioni frontend

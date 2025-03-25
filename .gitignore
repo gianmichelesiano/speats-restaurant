@@ -1,0 +1,12 @@
+# Regole globali per l'intero progetto
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Puoi anche aggiungere regole per file specifici nella root
+/node_modules
+package-lock.json
+
+/venv
+.env
