@@ -50,6 +50,9 @@ const AuthenticatedTablesIndexLazyImport = createFileRoute(
 const AuthenticatedSettingsIndexLazyImport = createFileRoute(
   '/_authenticated/settings/',
 )()
+const AuthenticatedRolesIndexLazyImport = createFileRoute(
+  '/_authenticated/roles/',
+)()
 const AuthenticatedReviewsIndexLazyImport = createFileRoute(
   '/_authenticated/reviews/',
 )()
@@ -91,6 +94,9 @@ const AuthenticatedSettingsAppearanceLazyImport = createFileRoute(
 )()
 const AuthenticatedSettingsAccountLazyImport = createFileRoute(
   '/_authenticated/settings/account',
+)()
+const AuthenticatedRolesRoleIdPermissionsLazyImport = createFileRoute(
+  '/_authenticated/roles/$roleId/permissions',
 )()
 
 // Create/Update Routes
@@ -254,6 +260,15 @@ const AuthenticatedSettingsIndexLazyRoute =
     import('./routes/_authenticated/settings/index.lazy').then((d) => d.Route),
   )
 
+const AuthenticatedRolesIndexLazyRoute =
+  AuthenticatedRolesIndexLazyImport.update({
+    id: '/roles/',
+    path: '/roles/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/roles/index.lazy').then((d) => d.Route),
+  )
+
 const AuthenticatedReviewsIndexLazyRoute =
   AuthenticatedReviewsIndexLazyImport.update({
     id: '/reviews/',
@@ -395,6 +410,17 @@ const AuthenticatedSettingsAccountLazyRoute =
     getParentRoute: () => AuthenticatedSettingsRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/_authenticated/settings/account.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const AuthenticatedRolesRoleIdPermissionsLazyRoute =
+  AuthenticatedRolesRoleIdPermissionsLazyImport.update({
+    id: '/roles/$roleId/permissions',
+    path: '/roles/$roleId/permissions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/roles/$roleId/permissions.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -606,6 +632,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReviewsIndexLazyImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/roles/': {
+      id: '/_authenticated/roles/'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof AuthenticatedRolesIndexLazyImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
       path: '/'
@@ -639,6 +672,13 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/users'
       preLoaderRoute: typeof AuthenticatedUsersIndexLazyImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/roles/$roleId/permissions': {
+      id: '/_authenticated/roles/$roleId/permissions'
+      path: '/roles/$roleId/permissions'
+      fullPath: '/roles/$roleId/permissions'
+      preLoaderRoute: typeof AuthenticatedRolesRoleIdPermissionsLazyImport
       parentRoute: typeof AuthenticatedRouteImport
     }
   }
@@ -685,10 +725,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReservationsIndexLazyRoute: typeof AuthenticatedReservationsIndexLazyRoute
   AuthenticatedRestaurantsIndexLazyRoute: typeof AuthenticatedRestaurantsIndexLazyRoute
   AuthenticatedReviewsIndexLazyRoute: typeof AuthenticatedReviewsIndexLazyRoute
+  AuthenticatedRolesIndexLazyRoute: typeof AuthenticatedRolesIndexLazyRoute
   AuthenticatedTablesIndexLazyRoute: typeof AuthenticatedTablesIndexLazyRoute
   AuthenticatedTasksIndexLazyRoute: typeof AuthenticatedTasksIndexLazyRoute
   AuthenticatedTenantsIndexLazyRoute: typeof AuthenticatedTenantsIndexLazyRoute
   AuthenticatedUsersIndexLazyRoute: typeof AuthenticatedUsersIndexLazyRoute
+  AuthenticatedRolesRoleIdPermissionsLazyRoute: typeof AuthenticatedRolesRoleIdPermissionsLazyRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -708,10 +750,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRestaurantsIndexLazyRoute:
     AuthenticatedRestaurantsIndexLazyRoute,
   AuthenticatedReviewsIndexLazyRoute: AuthenticatedReviewsIndexLazyRoute,
+  AuthenticatedRolesIndexLazyRoute: AuthenticatedRolesIndexLazyRoute,
   AuthenticatedTablesIndexLazyRoute: AuthenticatedTablesIndexLazyRoute,
   AuthenticatedTasksIndexLazyRoute: AuthenticatedTasksIndexLazyRoute,
   AuthenticatedTenantsIndexLazyRoute: AuthenticatedTenantsIndexLazyRoute,
   AuthenticatedUsersIndexLazyRoute: AuthenticatedUsersIndexLazyRoute,
+  AuthenticatedRolesRoleIdPermissionsLazyRoute:
+    AuthenticatedRolesRoleIdPermissionsLazyRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -746,11 +791,13 @@ export interface FileRoutesByFullPath {
   '/reservations': typeof AuthenticatedReservationsIndexLazyRoute
   '/restaurants': typeof AuthenticatedRestaurantsIndexLazyRoute
   '/reviews': typeof AuthenticatedReviewsIndexLazyRoute
+  '/roles': typeof AuthenticatedRolesIndexLazyRoute
   '/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/tables': typeof AuthenticatedTablesIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/tenants': typeof AuthenticatedTenantsIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
+  '/roles/$roleId/permissions': typeof AuthenticatedRolesRoleIdPermissionsLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -780,11 +827,13 @@ export interface FileRoutesByTo {
   '/reservations': typeof AuthenticatedReservationsIndexLazyRoute
   '/restaurants': typeof AuthenticatedRestaurantsIndexLazyRoute
   '/reviews': typeof AuthenticatedReviewsIndexLazyRoute
+  '/roles': typeof AuthenticatedRolesIndexLazyRoute
   '/settings': typeof AuthenticatedSettingsIndexLazyRoute
   '/tables': typeof AuthenticatedTablesIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/tenants': typeof AuthenticatedTenantsIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
+  '/roles/$roleId/permissions': typeof AuthenticatedRolesRoleIdPermissionsLazyRoute
 }
 
 export interface FileRoutesById {
@@ -818,11 +867,13 @@ export interface FileRoutesById {
   '/_authenticated/reservations/': typeof AuthenticatedReservationsIndexLazyRoute
   '/_authenticated/restaurants/': typeof AuthenticatedRestaurantsIndexLazyRoute
   '/_authenticated/reviews/': typeof AuthenticatedReviewsIndexLazyRoute
+  '/_authenticated/roles/': typeof AuthenticatedRolesIndexLazyRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/_authenticated/tables/': typeof AuthenticatedTablesIndexLazyRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexLazyRoute
   '/_authenticated/tenants/': typeof AuthenticatedTenantsIndexLazyRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexLazyRoute
+  '/_authenticated/roles/$roleId/permissions': typeof AuthenticatedRolesRoleIdPermissionsLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -856,11 +907,13 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/restaurants'
     | '/reviews'
+    | '/roles'
     | '/settings/'
     | '/tables'
     | '/tasks'
     | '/tenants'
     | '/users'
+    | '/roles/$roleId/permissions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/500'
@@ -889,11 +942,13 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/restaurants'
     | '/reviews'
+    | '/roles'
     | '/settings'
     | '/tables'
     | '/tasks'
     | '/tenants'
     | '/users'
+    | '/roles/$roleId/permissions'
   id:
     | '__root__'
     | '/_authenticated'
@@ -925,11 +980,13 @@ export interface FileRouteTypes {
     | '/_authenticated/reservations/'
     | '/_authenticated/restaurants/'
     | '/_authenticated/reviews/'
+    | '/_authenticated/roles/'
     | '/_authenticated/settings/'
     | '/_authenticated/tables/'
     | '/_authenticated/tasks/'
     | '/_authenticated/tenants/'
     | '/_authenticated/users/'
+    | '/_authenticated/roles/$roleId/permissions'
   fileRoutesById: FileRoutesById
 }
 
@@ -1005,10 +1062,12 @@ export const routeTree = rootRoute
         "/_authenticated/reservations/",
         "/_authenticated/restaurants/",
         "/_authenticated/reviews/",
+        "/_authenticated/roles/",
         "/_authenticated/tables/",
         "/_authenticated/tasks/",
         "/_authenticated/tenants/",
-        "/_authenticated/users/"
+        "/_authenticated/users/",
+        "/_authenticated/roles/$roleId/permissions"
       ]
     },
     "/(auth)/500": {
@@ -1118,6 +1177,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/reviews/index.lazy.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/roles/": {
+      "filePath": "_authenticated/roles/index.lazy.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/settings/": {
       "filePath": "_authenticated/settings/index.lazy.tsx",
       "parent": "/_authenticated/settings"
@@ -1136,6 +1199,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/users/": {
       "filePath": "_authenticated/users/index.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/roles/$roleId/permissions": {
+      "filePath": "_authenticated/roles/$roleId/permissions.lazy.tsx",
       "parent": "/_authenticated"
     }
   }

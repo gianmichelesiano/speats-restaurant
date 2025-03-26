@@ -122,6 +122,11 @@ export const sidebarData: SidebarData = {
           url: '/users',
           icon: IconUsers,
         },
+        {
+          title: 'Roles & Permissions',
+          url: '/roles',
+          icon: IconLockAccess,
+        },
       ]
       
     },
