@@ -1,3 +1,6 @@
+# All'inizio del tuo file principale o in un modulo config.py
+from dotenv import load_dotenv
+load_dotenv()  # Carica le variabili dal file .env
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings

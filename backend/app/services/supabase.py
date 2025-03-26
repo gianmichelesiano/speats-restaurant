@@ -1,3 +1,8 @@
+# Prima riga del main.py
+from dotenv import load_dotenv
+load_dotenv()  # Carica le variabili dal file .env
+
+
 from supabase import create_client, Client
 from app.core.config import settings
 import logging

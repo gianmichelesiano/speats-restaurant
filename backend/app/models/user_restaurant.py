@@ -2,6 +2,7 @@ from uuid import UUID
 from typing import Optional
 from pydantic import BaseModel
 from .base import BaseDBModel
+from datetime import datetime
 
 class UserRestaurantBase(BaseModel):
     user_id: UUID
@@ -15,9 +16,12 @@ class UserRestaurantCreate(UserRestaurantBase):
 class UserRestaurantUpdate(BaseModel):
     role: Optional[str] = None
 
-class UserRestaurantInDBBase(UserRestaurantBase):
+class UserRestaurantUpdate(BaseModel):
+    role: Optional[str] = None
+    
+class UserRestaurant(UserRestaurantBase):
+    id: UUID
+    created_at: datetime
+    
     class Config:
-        from_attributes = True
-
-class UserRestaurant(UserRestaurantInDBBase):
-    pass
+        orm_mode = True
